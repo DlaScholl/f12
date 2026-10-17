@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b10">
+  <meta name="description" content="Интерактивная анатомия болида Формулы‑1: изучайте детали, аэродинамику, гоночные шины и технологии.">
+  <title>APEX LAB — Анатомия болида Формулы‑1</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090c12;--panel:#111721;--panel2:#151d28;--red:#fc373b;--red2:#bd1825;--white:#f7f7fa;--text:#a4adbc;--stroke:#29313e;--cyan:#53d6ff;--radius:22px}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--white);font-family:Inter,"Segoe UI",Arial,sans-serif;line-height:1.65;overflow-x:hidden}
+    button{font:inherit} a{color:inherit;text-decoration:none} button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:3px solid #ffabb0;outline-offset:4px}
+    ::selection{background:var(--red);color:white}
+    .backdrop{position:fixed;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 90% -15%,#3c10222f,transparent 42%),radial-gradient(ellipse at -20% 40%,#0b3e5220,transparent 46%)}
+    .topbar{position:sticky;top:0;z-index:30;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:#090d14e9;border-bottom:1px solid #ffffff13}
+    .top-inner{max-width:1320px;margin:auto;min-height:76px;padding:0 32px;display:flex;align-items:center;gap:36px}
+    .brand{display:flex;gap:12px;align-items:center;white-space:nowrap;font-size:18px;font-weight:900;letter-spacing:1.2px}.brand span{color:#fff}.brand b{font-size:10px;letter-spacing:2px;font-weight:700;color:var(--red);display:block;line-height:1}
+    .brandmark{display:grid;grid-template-columns:repeat(3,10px);gap:4px;transform:skew(-23deg);margin-right:7px}.brandmark i{height:20px;background:var(--red);border-radius:2px}
+    .nav{display:flex;margin-left:auto;align-self:stretch;gap:6px;overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav-btn{appearance:none;white-space:nowrap;background:none;border:0;color:#aeb5c2;font-weight:720;font-size:13px;letter-spacing:.2px;padding:0 18px;cursor:pointer;border-bottom:2px solid transparent;transition:.2s}.nav-btn:hover{color:white;background:#ffffff08}.nav-btn.active{color:white;border-color:var(--red);background:linear-gradient(180deg,transparent,#f32f3813)}
+    .edition{border:1px solid #df42504f;border-radius:50px;padding:5px 11px;color:#ff777d;font-weight:900;font-size:11px;letter-spacing:1.3px;white-space:nowrap}
+    main{max-width:1320px;margin:0 auto;padding:0 32px 75px}.page{display:none;animation:appear .38s ease}.page.active{display:block}@keyframes appear{from{opacity:.45;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;font-size:11px;font-weight:900;letter-spacing:2.6px;color:#e5b4b7}.eyebrow:before{content:"";width:22px;height:3px;background:var(--red);border-radius:8px}
+    .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(290px,.85fr);align-items:end;gap:55px;padding:77px 0 55px;min-height:370px}
+    .hero h1,.heading-xl{font-size:clamp(42px,6vw,84px);letter-spacing:-3.2px;line-height:.98;text-transform:uppercase;font-weight:950;margin:19px 0 25px;max-width:760px}
+    .hero h1 em,.heading-xl em{color:var(--red);font-style:normal}.hero p,.section-lead{color:var(--text);font-size:16px;max-width:560px;line-height:1.8;margin:0}
+    .hero-side{padding-bottom:9px}.hero-index{font-weight:900;letter-spacing:-6px;font-size:clamp(70px,11vw,148px);line-height:.85;color:#ffffff0a;text-align:right;user-select:none}.hero-side .mini-line{height:1px;background:linear-gradient(90deg,transparent,#47515e);margin:0 0 20px}.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.stat-row strong{display:block;font-weight:900;font-size:23px;line-height:1.25}.stat-row small{display:block;font-size:11px;color:#8d9aa9;line-height:1.3;margin-top:6px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:29px}.button{display:inline-flex;align-items:center;justify-content:center;gap:12px;border:1px solid transparent;border-radius:12px;background:var(--red);color:white;padding:13px 20px;font-size:13px;font-weight:850;cursor:pointer;transition:.2s}.button:hover{background:#ff5559;transform:translateY(-2px)}.button.ghost{background:#ffffff07;border-color:#ffffff24}.button.ghost:hover{background:#ffffff18}
+    .stage{position:relative;border:1px solid #313c49;border-radius:var(--radius);overflow:hidden;background:radial-gradient(ellipse at 52% 47%,#252c36 0%,#111821 45%,#0b1119 90%);box-shadow:0 35px 100px #0000005c, inset 0 1px #ffffff12}
+    .stage:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;background-image:linear-gradient(#ffffff15 1px,transparent 1px),linear-gradient(90deg,#ffffff15 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent)}
+    .stage-head{display:flex;align-items:center;justify-content:space-between;padding:26px 29px 2px;gap:15px;position:relative;z-index:1}.stage-tag{display:flex;align-items:center;gap:8px;color:#dde5f2;font-size:12px;letter-spacing:1.3px;font-weight:800;text-transform:uppercase}.stage-tag i{width:7px;height:7px;background:#40eaa5;border-radius:50%;box-shadow:0 0 11px #40eaa5}.stage-hint{font-size:12px;color:#78899b;text-align:right}
+    .car-scroll{position:relative;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#616a76 transparent}.car-wrap{width:100%;min-width:740px;max-width:1200px;margin:0 auto;position:relative}.car-svg{display:block;width:100%;height:auto;filter:drop-shadow(0 30px 30px #0009)}
+    .hotspot{cursor:pointer;outline:0;transition:filter .2s}.hotspot .hot-core{fill:var(--red);stroke:#fff;stroke-width:3;transition:.2s}.hotspot .hot-ring{fill:none;stroke:var(--red);stroke-width:2.5;opacity:.8;transform-box:fill-box;transform-origin:center;animation:pulse 2.7s ease-out infinite}.hotspot:nth-of-type(even) .hot-ring{animation-delay:.8s}.hotspot .hot-arrow{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}.hotspot:hover .hot-core,.hotspot.active .hot-core,.hotspot:focus .hot-core{fill:#fff;stroke:var(--red);stroke-width:3.5}.hotspot:hover .hot-arrow,.hotspot.active .hot-arrow,.hotspot:focus .hot-arrow{stroke:var(--red)}.hotspot.active .hot-ring{stroke:#fff;opacity:1;stroke-width:3}.hotspot:focus-visible .hit{stroke:#fff;stroke-width:3;fill:#fff2}@keyframes pulse{0%{transform:scale(1);opacity:.8}75%,100%{transform:scale(1.8);opacity:0}}.hotspot .hit{fill:transparent}
+    .stage-bottom{display:flex;justify-content:space-between;gap:20px;padding:0 28px 24px;color:#8996a4;font-size:11px;letter-spacing:.6px}.stage-bottom span:first-child{color:#e0acb0;font-weight:800}
+    .part-guide{padding:20px 0 5px}.guide-label{font-size:10px;color:#778797;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin:0 0 12px}.chip-list{display:flex;gap:9px;flex-wrap:wrap}.chip{border:1px solid #303946;border-radius:10px;background:#111822;color:#aeb7c3;padding:10px 13px;font-size:12px;font-weight:780;cursor:pointer;transition:.2s}.chip:hover{color:white;border-color:#7d5060}.chip.active{background:#fc373b16;color:#ff868a;border-color:#ed3b4c}
+    .detail-card{margin-top:22px;border:1px solid #303946;border-radius:var(--radius);background:linear-gradient(110deg,#151d28 0%,#0f151d 100%);padding:26px 29px;display:grid;grid-template-columns:52px minmax(0,1fr) minmax(200px,.58fr);gap:22px;align-items:center;position:relative;overflow:hidden}.detail-card:after{content:"";position:absolute;width:210px;height:210px;right:-110px;bottom:-150px;background:#fc373b22;filter:blur(70px);pointer-events:none}.part-index{height:48px;width:48px;border:1px solid #ff535e65;color:#ff6267;border-radius:12px;display:grid;place-items:center;font-weight:900;font-size:16px}.detail-text h2{font-size:25px;line-height:1.2;letter-spacing:-.8px;margin:4px 0 8px}.detail-text p{font-size:13px;color:#acb6c3;line-height:1.7;max-width:690px;margin:0}.detail-label{font-size:11px;color:var(--red);letter-spacing:1.6px;text-transform:uppercase;font-weight:900}.detail-note{border-left:1px solid #34404e;padding-left:24px}.detail-note strong{font-size:10px;letter-spacing:1.4px;color:#ff686e;text-transform:uppercase;display:block;margin-bottom:6px}.detail-note p{font-size:13px;color:#cbd2dd;line-height:1.65;margin:0}
+    .under-heading{display:flex;justify-content:space-between;gap:20px;align-items:end;margin:68px 0 24px}.section-title{font-size:clamp(29px,3.2vw,42px);font-weight:920;text-transform:uppercase;letter-spacing:-1.5px;line-height:1.1;margin:10px 0 0}.section-title span{color:var(--red)}
+    .triple{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature{border:1px solid #283442;background:linear-gradient(140deg,#151d28,#10161f);border-radius:18px;padding:24px;min-height:175px}.feature-index{color:var(--red);font-size:12px;font-weight:900;letter-spacing:1.4px}.feature h3{font-size:17px;margin:16px 0 8px}.feature p{font-size:13px;color:#9ba9b9;line-height:1.65;margin:0}
+    .subhero{padding:71px 0 45px}.subhero h1{font-size:clamp(45px,5.2vw,70px);letter-spacing:-2.8px;line-height:1.03;text-transform:uppercase;margin:16px 0 20px;max-width:850px}.subhero h1 em{font-style:normal;color:var(--red)}.subhero p{max-width:780px;font-size:16px;color:#a6b1bf;line-height:1.8}
+    .aero-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(275px,.75fr);gap:18px}.aero-visual{border:1px solid #2a3c4a;border-radius:22px;background:radial-gradient(ellipse at 50% 60%,#19324266,#0b121d 75%);padding:23px 20px 12px;position:relative;overflow:hidden}.aero-visual:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff0b 1px,transparent 1px),linear-gradient(90deg,#ffffff0b 1px,transparent 1px);background-size:35px 35px;opacity:.6;pointer-events:none}.aero-topline{display:flex;justify-content:space-between;gap:10px;position:relative;align-items:center;z-index:1}.aero-topline strong{font-size:12px;letter-spacing:.8px;text-transform:uppercase}.aero-topline span{font-size:11px;color:#92a6b6}.aero-svg{width:100%;height:auto;display:block;position:relative;margin:25px 0 2px}.aero-legend{display:flex;gap:20px;flex-wrap:wrap;padding:5px 7px 13px;position:relative;font-size:11px;color:#a6b5c3}.aero-legend b{display:inline-block;width:16px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}.aero-legend .blue{background:#58d5ff}.aero-legend .red{background:#ff555b}.aero-legend .green{background:#41d6b4}
+    .physics-panel{background:linear-gradient(140deg,#151d28,#0e141c);border:1px solid #2b3744;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:12px}.physics-panel h2{font-size:22px;margin:0 0 5px;line-height:1.2}.physics-panel p{font-size:13px;color:#9eacba;line-height:1.72;margin:0}.segmented{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#090e14;border:1px solid #263442;padding:5px;border-radius:12px;margin-top:5px}.segmented button{border:0;background:none;padding:12px 8px;border-radius:8px;color:#a4b0bf;font-size:12px;font-weight:850;cursor:pointer}.segmented button.active{color:white;background:#e02c37}.mode-title{color:white!important;font-weight:800;font-size:15px!important}.mode-fact{border-top:1px solid #34404d;padding-top:16px;margin-top:auto!important}.mode-fact strong{display:block;color:#ff7b82;font-size:11px;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:6px}.aero-visual[data-mode=straight] .downforce-arrows{opacity:.35}.aero-visual[data-mode=straight] .upper-flow{opacity:.7}.aero-visual[data-mode=straight] .ground-effect{opacity:.75}.aero-visual[data-mode=straight] .flap{transform:rotate(-13deg);transform-box:fill-box;transform-origin:right center}.upper-flow path,.ground-effect path{stroke-dasharray:12 12;animation:stream 3s linear infinite}@keyframes stream{to{stroke-dashoffset:-48}}
+    .aero-cards{margin-top:20px}.aero-card{border:1px solid #2d3947;border-radius:16px;padding:23px;background:#121a23}.aero-card h3{margin:5px 0 10px;font-size:17px}.aero-card p{font-size:13px;line-height:1.75;color:#9faebe;margin:0}.aero-card .num{color:#ff656d;font-weight:900;font-size:12px}
+    .tyre-showcase{display:grid;grid-template-columns:minmax(300px,1fr) minmax(0,1.15fr);gap:22px;align-items:stretch}.photo-panel{min-height:440px;border:1px solid #354151;border-radius:23px;overflow:hidden;position:relative;background:radial-gradient(circle at 53% 50%,#313b48,#0e141b 77%);display:flex;align-items:center;justify-content:center}.photo-panel:before{content:"";position:absolute;inset:0;background:linear-gradient(to top,#0c111bea,transparent 55%);z-index:1}.tyre-photo{width:100%;height:100%;object-fit:contain;object-position:50% 39%;max-height:470px;filter:drop-shadow(0 30px 25px #0008);transform:scale(1.15)}.photo-caption{position:absolute;bottom:21px;left:24px;z-index:2}.photo-caption b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:1.5px}.photo-caption span{font-size:11px;color:#aeb7c5}.tyre-controls{border:1px solid #2e3b49;border-radius:23px;background:linear-gradient(140deg,#151d28,#0c1219);padding:27px}.tyre-controls h2{font-size:30px;line-height:1.15;text-transform:uppercase;margin:8px 0 12px;letter-spacing:-1px}.tyre-controls>p{color:#aab5c4;font-size:13px;line-height:1.8;max-width:540px}.tyre-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:22px}.tyre-choice{border:1px solid #354150;border-radius:16px;background:#101821;color:white;padding:16px 8px;cursor:pointer;min-width:0;transition:.2s}.tyre-choice:hover{transform:translateY(-3px);border-color:#718095}.tyre-choice.active{border-color:var(--tyre-color);background:color-mix(in srgb,var(--tyre-color) 9%,#101821)}.tyre-choice strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-top:12px}.tyre-choice small{display:block;font-size:10px;color:#94a3b4;margin-top:3px}.tyre-icon{width:80px;height:80px;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#0b0f14 0 25%,#3d434c 26% 29%,#080b0f 31% 48%,var(--tyre-color) 49% 54%,#0c1014 55% 72%,#272d34 75%,#090b0f 84%);box-shadow:inset 0 0 13px #000,0 7px 16px #0008}.tyre-icon:before{content:"✦";font-size:26px;color:#79828f;text-shadow:0 1px 5px #000}.tyre-readout{margin-top:18px;padding:19px 20px;border:1px solid #354351;border-radius:14px;background:#080d13}.tyre-readout b{font-size:17px}.tyre-readout p{font-size:13px;color:#aab6c4;line-height:1.7;margin:7px 0 0}.tyre-readout .stripe{height:4px;width:34px;border-radius:10px;display:inline-block;margin:0 8px 4px 0}
+    .tyre-extra{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:19px}.wet{background:#141d27;border:1px solid #304253;border-radius:17px;padding:22px;display:flex;align-items:center;gap:19px}.wet-symbol{width:60px;height:60px;flex-shrink:0;border-radius:50%;background:repeating-conic-gradient(from 4deg,#192430 0 12deg,#263844 13deg 23deg);border:6px solid var(--wet);box-shadow:inset 0 0 0 6px #0c111b}.wet h3{font-size:16px;margin:0 0 3px}.wet p{font-size:12px;color:#9daebd;margin:0;line-height:1.55}
+    .about-layout{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}.about-card{border:1px solid #2d3a48;border-radius:20px;padding:26px;background:#121a24}.about-card .icon{font-size:28px;display:block;margin-bottom:17px}.about-card h2{font-size:19px;line-height:1.25;margin:0 0 12px}.about-card p{font-size:13px;color:#a5b0bd;line-height:1.75;margin:0}.closing-banner{margin-top:25px;border:1px solid #643541;background:linear-gradient(100deg,#281620,#121820);border-radius:20px;padding:25px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.closing-banner strong{font-size:20px;line-height:1.3}.closing-banner small{display:block;font-size:13px;color:#b9a8b3;font-weight:400;margin-top:3px}
+    footer{border-top:1px solid #25303a;background:#090e14;color:#778594;font-size:12px}.foot-inner{max-width:1320px;margin:0 auto;padding:29px 32px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}footer a{color:#c3cbd6;text-decoration:underline;text-underline-offset:4px}
+    @media(max-width:900px){.top-inner{padding:0 17px;gap:20px}.edition{display:none}.nav-btn{padding:0 11px}.hero{grid-template-columns:1fr;gap:30px;padding-top:55px;min-height:auto}.hero-side{display:none}.detail-card{grid-template-columns:48px 1fr}.detail-note{grid-column:2;border-left:0;border-top:1px solid #34404e;padding:14px 0 0}.aero-grid{grid-template-columns:1fr}.tyre-showcase{grid-template-columns:1fr 1fr}.photo-panel{min-height:380px}.tyre-controls{padding:20px}.tyre-icon{width:62px;height:62px}.tyre-choice{padding:12px 6px}}
+    @media(max-width:650px){main{padding:0 16px 50px}.top-inner{min-height:66px;padding:0 15px;flex-wrap:wrap;gap:0}.brand{height:60px;font-size:16px}.brandmark{grid-template-columns:repeat(3,8px)}.nav{order:2;width:100%;margin:0 -15px;padding:0 10px;height:48px;align-self:auto;border-top:1px solid #ffffff0d}.nav-btn{padding:0 12px;font-size:12px}.hero{padding:52px 0 35px}.hero h1{letter-spacing:-1.8px;font-size:clamp(40px,10vw,66px)}.hero p,.subhero p{font-size:14px}.stage-head{padding:19px 15px 0}.stage-hint{max-width:150px;font-size:10px}.car-wrap{min-width:760px}.stage-bottom{padding:0 14px 17px;font-size:10px}.detail-card{padding:20px 15px;gap:12px;grid-template-columns:38px 1fr}.part-index{width:36px;height:36px;font-size:12px}.detail-text h2{font-size:20px}.chip{font-size:11px;padding:9px 11px}.under-heading{margin-top:45px}.triple,.about-layout,.tyre-showcase,.tyre-extra{grid-template-columns:1fr}.feature{min-height:unset}.subhero{padding:54px 0 27px}.subhero h1{letter-spacing:-1.3px;font-size:clamp(39px,10vw,58px)}.aero-visual{padding:20px 10px}.aero-legend{font-size:10px;gap:9px}.photo-panel{min-height:320px}.tyre-photo{height:350px}.tyre-controls h2{font-size:25px}.closing-banner{align-items:start;flex-direction:column}.foot-inner{padding:23px 16px}.button{padding:12px 16px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+<header class="topbar"><div class="top-inner">
+  <a class="brand" href="#anatomy" onclick="switchPage('anatomy');return false" aria-label="APEX LAB — на главную"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>APEX <b>ENGINEERING LAB</b></span></a>
+  <nav class="nav" aria-label="Основное меню">
+    <button type="button" class="nav-btn active" data-page="anatomy" onclick="switchPage('anatomy')" aria-current="page">Анатомия болида</button>
+    <button type="button" class="nav-btn" data-page="aero" onclick="switchPage('aero')">Аэродинамика</button>
+    <button type="button" class="nav-btn" data-page="tyres" onclick="switchPage('tyres')">Шины</button>
+    <button type="button" class="nav-btn" data-page="about" onclick="switchPage('about')">О Формуле‑1</button>
+  </nav>
+  <span class="edition">2026 EDITION</span>
+</div></header>
+<main>
+<!-- ANATOMY -->
+<section class="page active" id="anatomy" aria-labelledby="anatomy-title">
+  <div class="hero">
+    <div><span class="eyebrow">Интерактивный инженерный гид</span><h1 id="anatomy-title">Анатомия <em>скорости.</em></h1><p>Из чего состоит болид Формулы‑1? Разберите гоночную машину по деталям: от переднего антикрыла до гибридной силовой установки.</p><div class="hero-actions"><a class="button" href="#car-stage">Исследовать болид <span aria-hidden="true">↘</span></a><button class="button ghost" type="button" onclick="switchPage('aero')">Посмотреть аэродинамику →</button></div></div>
+    <div class="hero-side" aria-hidden="true"><div class="mini-line"></div><div class="stat-row"><div><strong>08</strong><small>точек изучения</small></div><div><strong>F1</strong><small>инженерия скорости</small></div><div><strong>2026</strong><small>актуальный регламент</small></div></div></div>
+  </div>
+  <div class="stage" id="car-stage">
+    <div class="stage-head"><div class="stage-tag"><i aria-hidden="true"></i> Интерактивная модель / вид сверху</div><div class="stage-hint">Нажмите на красную точку детали · на телефоне прокручивайте →</div></div>
+    <div class="car-scroll" aria-label="Прокручиваемая схема болида">
+      <div class="car-wrap"><svg class="car-svg" viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схематичный вид сверху современного болида Формулы‑1, нос слева, восемь интерактивных указателей на деталях">
+        <defs>
+          <linearGradient id="redBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6063"/><stop offset=".27" stop-color="#ed2633"/><stop offset=".55" stop-color="#ba111d"/><stop offset="1" stop-color="#770e17"/></linearGradient>
+          <linearGradient id="blackBody" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#343b47"/><stop offset=".52" stop-color="#161c24"/><stop offset="1" stop-color="#06080b"/></linearGradient>
+          <linearGradient id="wing" x1="0" y1="0" x2="1" y2=".2"><stop stop-color="#f9494e"/><stop offset=".25" stop-color="#a11220"/><stop offset=".6" stop-color="#fd414b"/><stop offset="1" stop-color="#510a10"/></linearGradient>
+          <linearGradient id="tyre" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#343a42"/><stop offset=".35" stop-color="#090a0e"/><stop offset=".75" stop-color="#151a20"/><stop offset="1" stop-color="#303740"/></linearGradient>
+          <radialGradient id="hub"><stop stop-color="#303945"/><stop offset=".2" stop-color="#070b0f"/><stop offset=".7" stop-color="#2b333e"/><stop offset="1" stop-color="#030608"/></radialGradient>
+          <pattern id="carbon" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#101720"/><path d="M0 0H4V4H0zM4 4H8V8H4z" fill="#1e2630"/></pattern>
+          <filter id="carShadow" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="15"/></filter>
+          <g id="wheelTop"><rect x="-55" y="-40" width="110" height="80" rx="19" fill="url(#tyre)" stroke="#424a52" stroke-width="2"/><rect x="-43" y="-35" width="86" height="70" rx="13" fill="none" stroke="#626a72" stroke-opacity=".35" stroke-width="2"/><path d="M-37 -31h74M-37 31h74" stroke="#66707b" opacity=".2" stroke-width="3"/><circle r="29" fill="#0b0e12" stroke="#f2bc38" stroke-width="5"/><circle r="22" fill="url(#hub)" stroke="#8c929a" stroke-width="1"/><g stroke="#4d5662" stroke-width="3"><path d="M0 -19V19M-19 0H19M-14 -14L14 14M14 -14L-14 14"/></g><circle r="8" fill="#0a0e13" stroke="#848c97" stroke-width="2"/><circle r="3" fill="#c6a45e"/></g>
+          <g id="rearWheel"><rect x="-61" y="-44" width="122" height="88" rx="21" fill="url(#tyre)" stroke="#444d56" stroke-width="2"/><rect x="-48" y="-37" width="96" height="74" rx="14" fill="none" stroke="#6c7381" opacity=".35"/><circle r="32" fill="#0b0e13" stroke="#f3c03a" stroke-width="5"/><circle r="25" fill="url(#hub)" stroke="#888c93" stroke-width="1.5"/><g stroke="#596272" stroke-width="3"><path d="M0 -22V22M-22 0H22M-16 -16L16 16M16 -16L-16 16"/></g><circle r="9" fill="#090b0d" stroke="#929aa5" stroke-width="2"/><circle r="3" fill="#cbad64"/></g>
+        </defs>
+        <ellipse cx="506" cy="259" rx="406" ry="115" fill="#000" opacity=".37" filter="url(#carShadow)"/>
+        <!-- Front wing lower sculpted elements. All geometry shares the same viewBox as hotspots. -->
+        <g stroke-linejoin="round">
+          <path d="M89 92Q115 80 167 101L189 166L173 192L119 165L91 165Z" fill="url(#wing)" stroke="#38090e" stroke-width="3"/>
+          <path d="M89 348Q115 360 167 339L189 274L173 249L119 274L91 273Z" fill="url(#wing)" stroke="#38090e" stroke-width="3"/>
+          <path d="M93 109C115 128 135 143 182 151L173 164C140 161 115 148 89 129Z" fill="#ef3540" stroke="#ff979a" stroke-opacity=".55"/>
+          <path d="M93 331C115 312 135 297 182 289L173 276C140 279 115 292 89 311Z" fill="#ef3540" stroke="#ff979a" stroke-opacity=".55"/>
+          <path d="M94 83L126 88L114 170L91 167Z" fill="#0b111a" stroke="#d52b36" stroke-width="3"/>
+          <path d="M94 357L126 352L114 270L91 273Z" fill="#0b111a" stroke="#d52b36" stroke-width="3"/>
+          <path d="M102 171C137 186 150 201 175 206L175 234C146 244 128 254 102 269L92 252V189Z" fill="url(#wing)" stroke="#f75e62" stroke-width="1.5"/>
+          <path d="M101 180L160 211M101 259L160 230" stroke="#ff9ea0" stroke-width="2.5" opacity=".6"/>
+        </g>
+        <!-- central floor and diffuser -->
+        <path d="M378 174L431 150L675 146L738 172L810 173L828 197L828 245L809 267L738 268L677 292L431 290L378 267Z" fill="url(#carbon)" stroke="#485461" stroke-width="3"/>
+        <path d="M437 162L706 162L745 188L745 251L707 276L437 276L405 256L405 182Z" fill="#252b33" opacity=".75"/>
+        <g stroke="#67707b" opacity=".37" stroke-width="2"><path d="M464 169L689 171M464 271L689 269M703 169L783 177M703 271L783 263"/><path d="M695 177L777 198M695 264L777 243"/></g>
+        <!-- back wheel suspension, underneath -->
+        <g stroke="#9aa3ac" stroke-width="5" stroke-linecap="round"><path d="M696 184L756 122M736 213L790 122M696 256L756 318M736 226L790 318"/></g>
+        <g stroke="#242b33" stroke-width="9"><path d="M704 198L765 134M704 242L765 306"/></g>
+        <!-- front suspension rods behind wheels -->
+        <g stroke="#858d97" stroke-width="5" stroke-linecap="round"><path d="M277 202L332 116M333 203L280 117M277 238L332 324M333 237L280 323"/></g>
+        <g stroke="#171c25" stroke-width="8"><path d="M272 193L324 128M272 247L324 312"/></g>
+        <!-- tires -->
+        <use href="#wheelTop" transform="translate(293 107)"/>
+        <use href="#wheelTop" transform="translate(293 333)"/>
+        <use href="#rearWheel" transform="translate(779 105)"/>
+        <use href="#rearWheel" transform="translate(779 335)"/>
+        <!-- rear wing pylons and blades -->
+        <path d="M799 208L878 205M799 232L878 235" stroke="#5f6874" stroke-width="13" stroke-linecap="round"/>
+        <path d="M849 127L898 126Q912 220 898 314L849 313Z" fill="url(#blackBody)" stroke="#bc2934" stroke-width="3"/>
+        <path d="M854 133Q884 145 895 152L895 288Q880 302 854 306Z" fill="url(#wing)" stroke="#f98c94" stroke-opacity=".7" stroke-width="1.5"/>
+        <path d="M876 145L876 295M889 147L889 293" stroke="#28090f" stroke-width="6"/>
+        <path d="M841 114L898 109L910 123L910 139L845 139Z" fill="#111722" stroke="#ec3c47" stroke-width="3"/>
+        <path d="M841 326L898 331L910 317L910 301L845 301Z" fill="#111722" stroke="#ec3c47" stroke-width="3"/>
+        <!-- nose, chassis and bodywork -->
+        <path d="M143 212L220 209L318 202L394 177L471 166L543 172L648 189L742 202L792 217L793 223L741 237L649 251L543 268L471 274L394 263L318 238L220 231L143 228Z" fill="url(#redBody)" stroke="#800e1c" stroke-width="3"/>
+        <path d="M159 218L374 218" stroke="#ff9ea0" stroke-width="3" opacity=".7"/>
+        <path d="M183 227L367 226" stroke="#550a10" stroke-width="3"/>
+        <path d="M366 196L438 166L451 185L395 215Z" fill="#ab1822" stroke="#ff6a75" stroke-opacity=".5"/>
+        <path d="M366 244L438 274L451 255L395 225Z" fill="#ab1822" stroke="#ff6a75" stroke-opacity=".5"/>
+        <!-- sculpted sidepods upper and lower, with airflow channels -->
+        <path d="M451 183C471 144 530 134 600 152L665 174L693 201L603 198L527 194Z" fill="url(#redBody)" stroke="#e9565e" stroke-width="2.2"/>
+        <path d="M451 257C471 296 530 306 600 288L665 266L693 239L603 242L527 246Z" fill="url(#redBody)" stroke="#e9565e" stroke-width="2.2"/>
+        <path d="M462 181Q485 154 534 157L533 181L488 198Z" fill="#060a11" stroke="#ff757b" stroke-width="2"/>
+        <path d="M462 259Q485 286 534 283L533 259L488 242Z" fill="#060a11" stroke="#ff757b" stroke-width="2"/>
+        <path d="M505 164Q591 156 665 188" stroke="#ff8185" stroke-width="4" opacity=".8" fill="none"/>
+        <path d="M505 276Q591 284 665 252" stroke="#ff8185" stroke-width="4" opacity=".8" fill="none"/>
+        <path d="M547 181Q620 183 676 209M547 259Q620 257 676 231" stroke="#65111c" stroke-width="7" fill="none" opacity=".7"/>
+        <!-- cockpit and engine cover -->
+        <path d="M482 203Q503 183 546 192L636 207L697 217L708 220L697 223L636 233L546 248Q503 257 482 237Z" fill="url(#blackBody)" stroke="#f54d56" stroke-width="3"/>
+        <path d="M553 210L680 216L690 220L680 224L553 230Z" fill="#b81b28"/>
+        <path d="M593 214L688 218" stroke="#ff858c" stroke-width="2"/>
+        <ellipse cx="512" cy="220" rx="49" ry="25" fill="#02060a" stroke="#575e69" stroke-width="3"/>
+        <path d="M477 220Q492 193 524 198L548 214L548 226L524 242Q490 247 477 220Z" fill="#1a242f" stroke="#a3adb8" stroke-width="3"/>
+        <ellipse cx="522" cy="220" rx="14" ry="14" fill="#fff8ee" stroke="#bf1b2b" stroke-width="3"/>
+        <path d="M511 216Q522 209 532 216L532 224Q522 230 511 224Z" fill="#050b14"/>
+        <!-- HALO safety hoop: clear arch over the cockpit -->
+        <path d="M479 220L532 196Q557 220 532 244L479 220" stroke="#05070b" stroke-width="14" stroke-linejoin="round" fill="none"/>
+        <path d="M479 220L532 196Q557 220 532 244L479 220" stroke="#dce3e8" stroke-width="5.5" stroke-linejoin="round" fill="none"/>
+        <!-- top air intake behind pilot -->
+        <path d="M570 203L585 205L585 235L570 237Z" fill="#10141a" stroke="#f15d67" stroke-width="2"/>
+        <!-- precision details -->
+        <path d="M206 217L327 217" stroke="#fcb3b4" stroke-width="3" opacity=".6"/>
+        <path d="M237 212L296 209M237 228L296 231" stroke="#620c15" stroke-width="2"/>
+        <text x="348" y="228" font-family="Arial,sans-serif" font-size="17" font-weight="900" text-anchor="middle" fill="#ffffff" letter-spacing="-1">07</text>
+        <path d="M604 192L635 200M604 248L635 240" stroke="#ffb1ad" stroke-width="2" opacity=".65"/>
+        <path d="M799 213L839 213M799 227L839 227" stroke="#9aa6b5" stroke-width="3"/>
+        <!-- All hotspots use identical SVG coordinates, so they cannot drift when resized. -->
+        <g class="hotspot" data-part="front-wing" role="button" tabindex="0" aria-label="Переднее антикрыло" aria-pressed="false" transform="translate(136 285)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+        <g class="hotspot" data-part="tyres" role="button" tabindex="0" aria-label="Передние шины" aria-pressed="false" transform="translate(293 107)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+        <g class="hotspot" data-part="suspension" role="button" tabindex="0" aria-label="Подвеска" aria-pressed="false" transform="translate(326 179)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+        <g class="hotspot" data-part="halo" role="button" tabindex="0" aria-label="Система Halo" aria-pressed="false" transform="translate(539 204)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+        <g class="hotspot" data-part="sidepod" role="button" tabindex="0" aria-label="Боковой понтон" aria-pressed="false" transform="translate(583 166)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+        <g class="hotspot" data-part="floor" role="button" tabindex="0" aria-label="Днище" aria-pressed="false" transform="translate(651 283)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+        <g class="hotspot" data-part="engine" role="button" tabindex="0" aria-label="Гибридная силовая установка" aria-pressed="false" transform="translate(675 221)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+        <g class="hotspot" data-part="rear-wing" role="button" tabindex="0" aria-label="Заднее антикрыло" aria-pressed="false" transform="translate(880 220)"><circle class="hit" r="25"/><circle class="hot-ring" r="17"/><circle class="hot-core" r="16"/><path class="hot-arrow" d="M-5 0H6M2-5L7 0L2 5"/></g>
+      </svg></div>
+    </div>
+    <div class="stage-bottom"><span>◉ ТОЧКИ ПРИВЯЗАНЫ К ДЕТАЛЯМ БОЛИДА</span><span>SCHEMATIC • TOP VIEW • НЕ В МАСШТАБЕ</span></div>
+  </div>
+  <div class="part-guide"><p class="guide-label">Быстрый выбор детали</p><div class="chip-list" id="part-chips" aria-label="Выбрать деталь болида"></div></div>
+  <article class="detail-card" aria-live="polite" aria-atomic="true"><div class="part-index" id="part-index">01</div><div class="detail-text"><span class="detail-label">Выбранный элемент</span><h2 id="part-title">Переднее антикрыло</h2><p id="part-description"></p></div><div class="detail-note"><strong>Зачем это нужно</strong><p id="part-fact"></p></div></article>
+  <div class="under-heading"><div><span class="eyebrow">Важные детали</span><h2 class="section-title">Инженерия <span>на пределе.</span></h2></div></div>
+  <div class="triple"><div class="feature"><span class="feature-index">01 / AERO</span><h3>Каждая поверхность важна</h3><p>Крылья, понтоны и днище направляют поток воздуха и влияют на баланс машины в поворотах.</p></div><div class="feature"><span class="feature-index">02 / GRIP</span><h3>Сцепление решает всё</h3><p>Шины, подвеска и аэродинамическая нагрузка работают вместе — без сцепления мощность бесполезна.</p></div><div class="feature"><span class="feature-index">03 / POWER</span><h3>Энергия под контролем</h3><p>Гибридный двигатель объединяет работу ДВС и электрической системы рекуперации.</p></div></div>
+</section>
+<!-- AERODYNAMICS -->
+<section id="aero" class="page" aria-labelledby="aero-title">
+  <div class="subhero"><span class="eyebrow">02 / Физика движения</span><h1 id="aero-title">Воздух — <em>невидимый инженер.</em></h1><p>Потоки обтекают кузов и проходят под днищем. Разница давлений помогает создавать прижимную силу, благодаря которой болид быстрее проходит повороты. На схеме показан упрощённый принцип работы.</p></div>
+  <div class="aero-grid">
+    <div class="aero-visual" id="aero-visual" data-mode="corner"><div class="aero-topline"><strong>Схема воздушных потоков · вид сбоку</strong><span>Направление движения ←</span></div>
+      <svg class="aero-svg" viewBox="0 0 780 370" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схема: синие линии показывают воздух над болидом, бирюзовые и красные линии показывают ускорение потока под днищем и прижимную силу вниз">
+        <defs><linearGradient id="carSide" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff5f67"/><stop offset=".55" stop-color="#d02132"/><stop offset="1" stop-color="#68121a"/></linearGradient><linearGradient id="aeroGlow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4cdfda" stop-opacity=".2"/><stop offset="1" stop-color="#ef4952" stop-opacity=".5"/></linearGradient><marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#55d6ff"/></marker><marker id="arrowRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ff565f"/></marker></defs>
+        <g class="upper-flow" fill="none" stroke="#56d6ff" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowBlue)"><path d="M16 138C268 133 350 61 466 48C552 39 622 59 763 63"/><path d="M14 162C277 149 359 107 464 97C551 89 627 99 761 105"/><path d="M14 178C250 174 349 167 465 149C545 139 649 135 761 142"/></g>
+        <path d="M1 316H780" stroke="#657384" stroke-width="4"/><path d="M1 326H780" stroke="#2b3743" stroke-width="14"/><text x="16" y="353" fill="#91a1b2" font-size="13" font-weight="bold">ПОВЕРХНОСТЬ ТРАССЫ</text>
+        <path d="M126 242Q168 239 223 242L355 255L555 255Q639 242 680 246L680 285L577 287Q441 288 363 273L220 266Z" fill="url(#aeroGlow)" stroke="#31b5b9" stroke-opacity=".4"/>
+        <g class="ground-effect" fill="none" stroke-linecap="round"><path d="M19 298C121 292 174 278 258 273C351 267 402 271 508 276C590 281 630 282 739 280" stroke="#41d6b4" stroke-width="4"/><path d="M17 304C84 299 126 298 208 291C308 283 382 273 493 282C550 285 624 291 746 296" stroke="#fb585f" stroke-width="4"/><path d="M209 302C298 297 379 285 484 291C560 296 610 301 747 309" stroke="#fb585f" stroke-width="2.5"/></g>
+        <!-- Detailed 2026 Formula 1 side profile, nose pointing left -->
+        <defs>
+          <linearGradient id="aeroPaint" x1="0" y1="0" x2=".15" y2="1"><stop stop-color="#ff8588"/><stop offset=".26" stop-color="#f13745"/><stop offset=".65" stop-color="#b81329"/><stop offset="1" stop-color="#510d1b"/></linearGradient>
+          <linearGradient id="aeroCarbon" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#45505b"/><stop offset=".35" stop-color="#1c2530"/><stop offset="1" stop-color="#080d14"/></linearGradient>
+          <linearGradient id="aeroRubber" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#333b46"/><stop offset=".3" stop-color="#080b10"/><stop offset=".75" stop-color="#161c23"/><stop offset="1" stop-color="#39414a"/></linearGradient>
+          <linearGradient id="aeroVisor" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#84939e"/><stop offset=".35" stop-color="#24313e"/><stop offset="1" stop-color="#080e17"/></linearGradient>
+          <filter id="aeroCarShade" x="-25%" y="-40%" width="150%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+        </defs>
+        <ellipse cx="399" cy="301" rx="329" ry="9" fill="#000" opacity=".54" filter="url(#aeroCarShade)"/>
+        <!-- Undercarriage and sculpted floor -->
+        <path d="M100 259L170 255L266 251L357 250L467 245L578 248L663 257L684 268L627 275L517 271L413 273L300 268L189 270L105 267Z" fill="url(#aeroCarbon)" stroke="#66727e" stroke-width="2"/>
+        <path d="M251 269L369 269L479 268L565 271L619 278L502 281L369 276L262 276Z" fill="#070d13" stroke="#54606c" stroke-width="1.5"/>
+        <path d="M345 275Q460 289 596 274" fill="none" stroke="#e74856" stroke-width="3" opacity=".7"/>
+        <!-- Front suspension, dark wishbone members -->
+        <g fill="none" stroke="#84909d" stroke-width="5" stroke-linecap="round"><path d="M188 234L265 218L327 243"/><path d="M197 273L280 253L334 247"/><path d="M582 227L633 243L654 258"/><path d="M574 260L636 277"/></g>
+        <g fill="none" stroke="#19212a" stroke-width="3"><path d="M190 230L271 239M582 229L642 271"/></g>
+        <!-- Narrow raised front nose and multi-piece front wing -->
+        <path d="M56 247Q93 239 146 238L227 227L285 213L328 218L333 238L267 243L161 256L56 258Z" fill="url(#aeroPaint)" stroke="#ff9399" stroke-width="2"/>
+        <path d="M43 252L126 252L167 258L152 265L48 264Z" fill="#161d27" stroke="#a0a9b3" stroke-width="2"/>
+        <path d="M42 239L119 237L150 244L138 250L39 249Z" fill="#e52b3d" stroke="#ffadb0" stroke-width="2"/>
+        <path d="M55 228L122 229L147 239L62 239Z" fill="#b9152b" stroke="#ff848e" stroke-width="1.5"/>
+        <path d="M49 228L48 265M142 236L151 265" stroke="#b3bcc5" stroke-width="3"/>
+        <path d="M102 242L264 232" stroke="#ffb9b1" stroke-width="2" opacity=".72"/>
+        <!-- Sleek sidepod, cockpit shoulder and engine cover -->
+        <path d="M265 242L309 210L340 179Q360 168 405 174L439 194L488 199L534 210L575 220L642 243L654 260L578 264L519 250L467 254L420 267L328 263L278 255Z" fill="url(#aeroPaint)" stroke="#ff9199" stroke-width="2.5"/>
+        <path d="M328 219L360 205L423 205L470 214L494 239L458 252L376 249L313 242Z" fill="#790f21" opacity=".85"/>
+        <path d="M345 233Q412 216 464 232L494 244Q431 255 361 246Z" fill="#151d27" stroke="#ec515f" stroke-width="2"/>
+        <path d="M467 219L542 217L604 238L559 242L490 236Z" fill="#a40f25" stroke="#f46c78" stroke-width="1.8"/>
+        <path d="M481 225Q538 229 585 242" stroke="#ffb9a9" stroke-width="3" fill="none" opacity=".75"/>
+        <path d="M277 250Q365 257 442 258L499 251" fill="none" stroke="#ff6771" stroke-width="2" opacity=".8"/>
+        <!-- Cockpit, driver helmet and halo safety loop -->
+        <path d="M329 212L345 179Q359 167 382 165L415 175L440 212Z" fill="url(#aeroVisor)" stroke="#a9b4be" stroke-width="2"/>
+        <path d="M359 189Q365 171 385 170Q406 172 414 191L404 207L367 207Z" fill="#f4f5f6" stroke="#353f4b" stroke-width="2"/>
+        <path d="M365 181Q388 171 410 187L403 195L363 194Z" fill="#151d28"/>
+        <path d="M365 196L406 197" stroke="#e73747" stroke-width="5"/>
+        <path d="M339 205Q339 170 378 158Q407 153 429 189L440 211" fill="none" stroke="#242d38" stroke-width="10" stroke-linecap="round"/>
+        <path d="M340 201Q342 172 378 161Q411 158 430 198" fill="none" stroke="#9fa9b4" stroke-width="3" stroke-linecap="round"/>
+        <path d="M391 165L386 207" stroke="#38434e" stroke-width="7"/>
+        <!-- Airbox, shark fin and graphics -->
+        <path d="M405 173L427 145L443 148L476 197L442 195Z" fill="#bd192c" stroke="#ff8a91" stroke-width="2"/>
+        <path d="M426 150L439 152L447 171L416 172Z" fill="#101821"/>
+        <path d="M447 195L557 216L520 217Z" fill="#2a1822" opacity=".7"/>
+        <path d="M292 236L318 224M455 204L519 217" stroke="#fff4e8" stroke-width="3" opacity=".75"/>
+        <text x="453" y="236" fill="#fff4ed" font-size="15" font-family="Arial,sans-serif" font-weight="900" transform="skewX(-9)">F1</text>
+        <!-- Rear wing pedestal, endplates and moveable flap -->
+        <path d="M636 245L672 193" fill="none" stroke="#919ba6" stroke-width="8"/>
+        <path d="M651 262L676 217" fill="none" stroke="#424c58" stroke-width="5"/>
+        <path d="M648 181L657 164L715 164L721 179L713 236L696 238L695 190L662 190L660 229L646 229Z" fill="url(#aeroCarbon)" stroke="#ec8088" stroke-width="2"/>
+        <g class="flap"><path d="M653 171Q683 165 713 171L712 182L653 184Z" fill="#ef3648" stroke="#ffb2b4" stroke-width="2"/><path d="M657 185L710 184L707 191L654 192Z" fill="#a9122a" stroke="#ed6673" stroke-width="1.5"/></g>
+        <path d="M640 242L674 241L693 253L691 264L644 259Z" fill="#1c2530" stroke="#9eabb8" stroke-width="2"/>
+        <!-- Wide slick racing tyres, rim details and brake hubs -->
+        <g>
+          <circle cx="194" cy="263" r="46" fill="url(#aeroRubber)" stroke="#49535e" stroke-width="2"/>
+          <circle cx="194" cy="263" r="39" fill="none" stroke="#13191f" stroke-width="8"/>
+          <circle cx="194" cy="263" r="33" fill="none" stroke="#eac538" stroke-width="3.5"/>
+          <circle cx="194" cy="263" r="25" fill="#111922" stroke="#717d88" stroke-width="2"/>
+          <circle cx="194" cy="263" r="18" fill="#29333e" stroke="#86929b" stroke-width="2"/>
+          <path d="M194 245V281M176 263H212M181 250L207 276M207 250L181 276" stroke="#a0aab2" stroke-width="3"/>
+          <circle cx="194" cy="263" r="7" fill="#d1d6d8" stroke="#596573" stroke-width="2"/>
+          <circle cx="602" cy="263" r="49" fill="url(#aeroRubber)" stroke="#49535e" stroke-width="2"/>
+          <circle cx="602" cy="263" r="42" fill="none" stroke="#11171e" stroke-width="9"/>
+          <circle cx="602" cy="263" r="35" fill="none" stroke="#eac538" stroke-width="3.5"/>
+          <circle cx="602" cy="263" r="27" fill="#111922" stroke="#717d88" stroke-width="2"/>
+          <circle cx="602" cy="263" r="20" fill="#29333e" stroke="#86929b" stroke-width="2"/>
+          <path d="M602 243V283M582 263H622M588 249L616 277M616 249L588 277" stroke="#a0aab2" stroke-width="3"/>
+          <circle cx="602" cy="263" r="8" fill="#d1d6d8" stroke="#596573" stroke-width="2"/>
+        </g>
+        <g class="downforce-arrows" stroke="#ff565f" stroke-width="5" fill="none" marker-end="url(#arrowRed)"><path d="M357 91L357 152"/><path d="M570 111L570 182"/></g>
+        <text x="348" y="82" text-anchor="middle" fill="#ffadb1" font-size="14" font-weight="800">ПРИЖИМНАЯ СИЛА</text><text x="476" y="303" text-anchor="middle" fill="#64ead0" font-size="12" font-weight="800">УСКОРЕННЫЙ ПОТОК</text>
+      </svg><div class="aero-legend"><span><b class="blue"></b>Обтекающий поток</span><span><b class="green"></b>Воздух под днищем</span><span><b class="red"></b>Прижимная сила / низкое давление</span></div>
+    </div>
+    <aside class="physics-panel"><span class="eyebrow">Active Aero / 2026</span><h2>Два режима крыльев</h2><p>С 2026 года переднее и заднее антикрылья могут менять конфигурацию. Переключайте режимы, чтобы посмотреть, зачем они нужны.</p>
+      <div class="segmented" role="group" aria-label="Режим аэродинамики"><button id="mode-corner" class="active" type="button" onclick="setAeroMode('corner')" aria-pressed="true">Поворот</button><button id="mode-straight" type="button" onclick="setAeroMode('straight')" aria-pressed="false">Прямая</button></div>
+      <p class="mode-title" id="mode-title">Corner Mode · больше прижима</p><p id="mode-description">Крылья создают больше прижимной силы: это помогает сохранять сцепление на высокой скорости в поворотах.</p><p class="mode-fact"><strong>Важно</strong>Движение воздуха показано условно — настоящую аэродинамику рассчитывают с помощью CFD и проверяют в аэродинамической трубе.</p>
+    </aside>
+  </div>
+  <div class="triple aero-cards"><div class="aero-card"><span class="num">01 / FRONT WING</span><h3>Переднее крыло</h3><p>Создаёт прижим и влияет на то, как воздух идёт к остальным элементам машины.</p></div><div class="aero-card"><span class="num">02 / FLOOR</span><h3>Днище и диффузор</h3><p>Форма днища управляет давлением под машиной. Для поколения 2026 схема пола отличается от предыдущих болидов с крупными тоннелями Вентури.</p></div><div class="aero-card"><span class="num">03 / REAR WING</span><h3>Заднее крыло</h3><p>Влияет на устойчивость задней оси и сопротивление движению. В 2026 году входит в систему активной аэродинамики.</p></div></div>
+</section>
+<!-- TYRES -->
+<section id="tyres" class="page" aria-labelledby="tyre-title"><div class="subhero"><span class="eyebrow">03 / Точка контакта</span><h1 id="tyre-title">Четыре колеса. <em>Вся скорость.</em></h1><p>Шины — единственная часть болида, напрямую касающаяся асфальта. От температуры, состава резины и износа зависит сцепление в каждом повороте. Выберите тип слика и сравните его назначение.</p></div>
+  <div class="tyre-showcase"><div class="photo-panel"><img class="tyre-photo" src="f1-tyre.webp" alt="Крупный план гоночного колеса Формулы‑1 с маркировкой P Zero и жёлтым ободом шины Medium" loading="lazy"><div class="photo-caption"><b>Гоночный слик · крупный план</b><span>Иллюстративное изображение, не технический эталон</span></div></div>
+    <div class="tyre-controls"><span class="eyebrow">Составы для сухой трассы</span><h2>Одна трасса — разные решения</h2><p>На каждый Гран‑при Pirelli выбирает три состава из доступной линейки. Цвет маркировки позволяет быстро различить их в трансляции.</p>
+      <div class="tyre-options" role="group" aria-label="Выбор состава шин"><button class="tyre-choice" style="--tyre-color:#fa4b56" data-tyre="soft" type="button" onclick="setTyre('soft')" aria-pressed="false"><span class="tyre-icon" aria-hidden="true"></span><strong>Soft</strong><small>Красный</small></button><button class="tyre-choice active" style="--tyre-color:#f2c444" data-tyre="medium" type="button" onclick="setTyre('medium')" aria-pressed="true"><span class="tyre-icon" aria-hidden="true"></span><strong>Medium</strong><small>Жёлтый</small></button><button class="tyre-choice" style="--tyre-color:#e6e7eb" data-tyre="hard" type="button" onclick="setTyre('hard')" aria-pressed="false"><span class="tyre-icon" aria-hidden="true"></span><strong>Hard</strong><small>Белый</small></button></div>
+      <div class="tyre-readout" aria-live="polite"><b><span class="stripe" id="tyre-stripe" style="background:#f2c444"></span><span id="tyre-name">Medium — средний состав</span></b><p id="tyre-description">Баланс сцепления и долговечности. Часто подходит для длинных отрезков гонки, когда важно сочетать темп и стабильность.</p></div>
+    </div></div>
+  <div class="under-heading"><div><span class="eyebrow">Когда трасса мокрая</span><h2 class="section-title">Дождь меняет <span>правила.</span></h2></div></div>
+  <div class="tyre-extra"><div class="wet" style="--wet:#43c875"><span class="wet-symbol" aria-hidden="true"></span><div><h3>Intermediate · зелёная</h3><p>Промежуточная шина с протектором для влажной трассы или небольшого количества воды.</p></div></div><div class="wet" style="--wet:#54a8ff"><span class="wet-symbol" aria-hidden="true"></span><div><h3>Full Wet · синяя</h3><p>Дождевая шина с глубоким рисунком протектора для отвода большого объёма воды.</p></div></div></div>
+</section>
+<!-- ABOUT -->
+<section id="about" class="page" aria-labelledby="about-title"><div class="subhero"><span class="eyebrow">04 / Мир технологий</span><h1 id="about-title">Формула‑1 — <em>больше чем гонка.</em></h1><p>За каждым быстрым кругом стоят пилот, механики, инженеры, аналитики и тысячи технических решений. Чемпионат объединяет спорт, физику, программирование и борьбу за доли секунды.</p></div>
+  <div class="about-layout"><div class="about-card"><span class="icon" aria-hidden="true">🏆</span><h2>Два чемпионата</h2><p>Очки получают пилоты и команды. По итогам сезона определяются чемпион мира среди гонщиков и победитель Кубка конструкторов.</p></div><div class="about-card"><span class="icon" aria-hidden="true">🔧</span><h2>Пит-стоп за секунды</h2><p>Отлаженная работа бригады позволяет заменить все четыре колеса за считаные секунды. В гонке важны не только скорость механиков, но и верно выбранный момент остановки.</p></div><div class="about-card"><span class="icon" aria-hidden="true">📡</span><h2>Данные и симуляции</h2><p>Датчики болида, аэродинамические расчёты и телеметрия позволяют команде оценивать состояние машины, износ шин и стратегию в реальном времени.</p></div><div class="about-card"><span class="icon" aria-hidden="true">⚡</span><h2>Гибридная энергия</h2><p>Силовая установка сочетает двигатель внутреннего сгорания и электрическую часть. Рекуперация при торможении помогает использовать энергию эффективнее.</p></div><div class="about-card"><span class="icon" aria-hidden="true">🧠</span><h2>Математика решений</h2><p>Стратеги оценивают время круга, деградацию резины, трафик и погоду. Иногда правильный выбор момента пит-стопа важнее одного очень быстрого круга.</p></div><div class="about-card"><span class="icon" aria-hidden="true">🏎️</span><h2>Новая эра 2026</h2><p>Активные крылья и обновлённые гибридные установки меняют то, как пилоты управляют скоростью, энергией и обгонами.</p></div></div>
+  <div class="closing-banner"><strong>Готовы заглянуть внутрь болида?<small>Вернитесь к схеме и выберите любую из восьми деталей.</small></strong><button class="button" onclick="switchPage('anatomy')">К интерактивной модели →</button></div>
+</section>
+</main>
+<footer><div class="foot-inner"><span>© 2026 APEX Engineering Lab · Образовательный проект, не связан с Formula 1 и FIA.</span><span>Данные о регламенте: <a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" target="_blank" rel="noopener noreferrer">FIA</a> · <a href="https://www.formula1.com/en/latest/article/the-beginners-guide-to-the-2026-regulations.6j0tS0hrHG2T01tpmK6XYz" target="_blank" rel="noopener noreferrer">Formula1.com</a></span></div></footer>
+<script>
+  const detailsData = {
+    'front-wing': {name:'Переднее антикрыло',short:'Переднее крыло',desc:'Первым встречает воздушный поток. Элементы крыла создают аэродинамическую нагрузку на переднюю ось и формируют движение воздуха дальше вдоль машины.',fact:'Баланс передней и задней оси влияет на то, насколько точно болид поворачивает.'},
+    'tyres':{name:'Гоночные шины',short:'Шины',desc:'Шины передают на асфальт усилия при торможении, разгоне и повороте. Гладкие шины без протектора — слики — используются на сухой трассе.',fact:'Красная, жёлтая и белая маркировка обозначает Soft, Medium и Hard для выбранного этапа.'},
+    'suspension':{name:'Подвеска',short:'Подвеска',desc:'Рычаги, амортизирующие и упругие элементы связывают колёса с шасси. Подвеска контролирует положение машины и помогает шинам сохранять контакт с трассой.',fact:'Даже небольшое изменение клиренса способно повлиять на работу днища.'},
+    'halo':{name:'Защита кокпита Halo',short:'Halo',desc:'Прочная дугообразная конструкция вокруг головы пилота защищает его от крупных предметов и помогает при серьёзных авариях.',fact:'Halo — обязательная система пассивной безопасности в современной Формуле‑1.'},
+    'sidepod':{name:'Боковые понтоны',short:'Понтоны',desc:'Боковые обтекатели размещают элементы системы охлаждения и направляют воздух вдоль корпуса к задней части машины.',fact:'Форма понтонов — компромисс между охлаждением, сопротивлением и работой аэродинамики.'},
+    'floor':{name:'Днище и диффузор',short:'Днище',desc:'Нижняя часть болида определяет движение воздуха под машиной. Форма пола и диффузора помогает создать разницу давлений и дополнительную прижимную силу.',fact:'Конструкция днища в регламенте 2026 года изменилась по сравнению с поколением 2022–2025.'},
+    'engine':{name:'Гибридная силовая установка',short:'Двигатель',desc:'Турбированный двигатель внутреннего сгорания V6 объёмом 1,6 литра работает вместе с электрической системой MGU‑K и батареей.',fact:'В регламенте 2026 года MGU‑H убрана, а роль электрической мощности существенно выросла.'},
+    'rear-wing':{name:'Заднее антикрыло',short:'Заднее крыло',desc:'Антикрыло помогает нагружать заднюю ось и стабилизировать машину. В 2026 году его подвижные элементы работают вместе с передними в системе Active Aero.',fact:'Прежнюю систему DRS заменили режимы активной аэродинамики и отдельный режим Overtake.'}
+  };
+  const detailIds=Object.keys(detailsData);
+  const $=id=>document.getElementById(id);
+  function selectPart(id){
+    const d=detailsData[id]; if(!d)return;
+    $('part-index').textContent=String(detailIds.indexOf(id)+1).padStart(2,'0');
+    $('part-title').textContent=d.name; $('part-description').textContent=d.desc; $('part-fact').textContent=d.fact;
+    document.querySelectorAll('.hotspot').forEach(el=>{const is=el.dataset.part===id;el.classList.toggle('active',is);el.setAttribute('aria-pressed',String(is))});
+    document.querySelectorAll('.chip').forEach(el=>{const is=el.dataset.part===id;el.classList.toggle('active',is);el.setAttribute('aria-pressed',String(is))});
+  }
+  function switchPage(id){
+    if(!$(id)||!$(id).classList.contains('page')) return;
+    document.querySelectorAll('.page').forEach(el=>{el.classList.toggle('active',el.id===id)});
+    document.querySelectorAll('.nav-btn').forEach(el=>{const active=el.dataset.page===id;el.classList.toggle('active',active);if(active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current')});
+    if(history.replaceState)history.replaceState(null,'','#'+id);
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  const modes={corner:{title:'Corner Mode · больше прижима',text:'Крылья создают больше прижимной силы: это помогает сохранять сцепление на высокой скорости в поворотах.'},straight:{title:'Straight Mode · меньше сопротивления',text:'Подвижные элементы переднего и заднего крыльев меняют угол. Сопротивление воздуха уменьшается, что помогает увеличить скорость на разрешённых прямых.'}};
+  function setAeroMode(mode){if(!modes[mode])return;$('aero-visual').dataset.mode=mode;$('mode-title').textContent=modes[mode].title;$('mode-description').textContent=modes[mode].text;['corner','straight'].forEach(m=>{const b=$('mode-'+m);b.classList.toggle('active',m===mode);b.setAttribute('aria-pressed',String(m===mode))})}
+  const tyreData={soft:{name:'Soft — мягкий состав',color:'#fa4b56',desc:'Обычно обеспечивает высокое сцепление и быстрый прогрев, но может изнашиваться быстрее. Подходит для коротких скоростных отрезков и квалификации.'},medium:{name:'Medium — средний состав',color:'#f2c444',desc:'Баланс сцепления и долговечности. Часто подходит для длинных отрезков гонки, когда важно сочетать темп и стабильность.'},hard:{name:'Hard — жёсткий состав',color:'#e6e7eb',desc:'Обычно лучше сопротивляется износу, но может требовать больше времени для прогрева. Применяется в стратегиях с длинными отрезками.'}};
+  function setTyre(which){const t=tyreData[which];if(!t)return;$('tyre-name').textContent=t.name;$('tyre-description').textContent=t.desc;$('tyre-stripe').style.background=t.color;document.querySelectorAll('.tyre-choice').forEach(b=>{const active=b.dataset.tyre===which;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))})}
+  const chipBox=$('part-chips');
+  detailIds.forEach(id=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.part=id;b.textContent=detailsData[id].short;b.addEventListener('click',()=>selectPart(id));chipBox.append(b)});
+  document.querySelectorAll('.hotspot').forEach(el=>{el.addEventListener('click',()=>selectPart(el.dataset.part));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectPart(el.dataset.part)}})});
+  selectPart('front-wing');
+  const initialHash=decodeURIComponent(location.hash.slice(1));if(['anatomy','aero','tyres','about'].includes(initialHash)){switchPage(initialHash)}
+  window.addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(['anatomy','aero','tyres','about'].includes(id))switchPage(id)});
+</script>
+</body>
+</html>
